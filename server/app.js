@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises';
 import { createElement } from 'react';
 import { renderToPipeableStream } from 'react-server-dom-esm/server';
 import { RESPONSE_ALREADY_SENT } from '@hono/node-server/utils/response';
+import { App } from '../ui/app.js';
 
 const app = new Hono();
 
@@ -19,18 +20,16 @@ app.use(
   }),
 );
 
+app.get('/rsc/:noteId?', async (context) => {
+  const noteId = context.req.param('noteId') ?? null;
+  const { pipe } = renderToPipeableStream(createElement(App, { selectedNoteId: noteId }));
+  pipe(context.env.outgoing);
+  return RESPONSE_ALREADY_SENT;
+});
+
 app.get('/:noteId?', async (context) => {
   const html = await readFile('./public/index.html', 'utf8');
   return context.html(html, 200);
-});
-
-app.get('/rsc/:noteId?', async (context) => {
-  const noteId = context.req.param('noteId') ?? null;
-  const { pipe } = renderToPipeableStream(
-    createElement('div', null, `Note ID: ${noteId}`),
-  );
-  pipe(context.env.outgoing);
-  return RESPONSE_ALREADY_SENT;
 });
 
 serve({
