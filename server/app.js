@@ -10,6 +10,15 @@ const app = new Hono();
 
 app.use('/*', serveStatic({ root: './public' }));
 
+app.use(
+  '/ui/*',
+  serveStatic({
+    root: './ui',
+    onNotFound: (_path, context) => context.text('File not found', 404),
+    rewriteRequestPath: (path) => path.replace('/ui', ''),
+  }),
+);
+
 app.get('/:noteId?', async (context) => {
   const html = await readFile('./public/index.html', 'utf8');
   return context.html(html, 200);
