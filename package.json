@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write \"**/*.+(js|jsx)\""
   },
   "author": "Dmitrii Mamonov",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@hono/node-server": "^1.14.4",
+    "hono": "^4.7.11"
+  },
+  "devDependencies": {
+    "prettier": "3.5.3"
+  }
 }
