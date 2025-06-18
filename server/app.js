@@ -22,7 +22,11 @@ app.use(
 
 app.get('/rsc/:noteId?', async (context) => {
   const noteId = context.req.param('noteId') ?? null;
-  const { pipe } = renderToPipeableStream(createElement(App, { selectedNoteId: noteId }));
+  const moduleBasePath = new URL('../ui', import.meta.url).href;
+  const { pipe } = renderToPipeableStream(
+    createElement(App, { selectedNoteId: noteId }),
+    moduleBasePath,
+  );
   pipe(context.env.outgoing);
   return RESPONSE_ALREADY_SENT;
 });

@@ -3,7 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { createFromFetch } from 'react-server-dom-esm/client';
 
 const fetchPromise = fetch('/rsc' + getGlobalLocation());
-const contentPromise = createFromFetch(fetchPromise);
+const contentPromise = createFromFetch(fetchPromise, {
+  moduleBaseURL: `${window.location.origin}/ui`,
+});
 
 function Root() {
   const content = use(contentPromise);
