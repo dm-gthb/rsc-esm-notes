@@ -10,6 +10,15 @@ body {
   padding: 10px;
 }
 
+.notes-container {
+  display: flex;
+  gap: 10px;
+}
+
+.note-details {
+  flex-grow: 1;
+}
+
 .note-list {
   padding: 0;
   padding-right: 10px;
@@ -25,11 +34,6 @@ body {
 
 .note-title {
   margin-top: 0;
-}
-
-.notes-container {
-  display: flex;
-  gap: 10px;
 }
 
 .link {
@@ -57,4 +61,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.note-editor-form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 12px;
+}
+
+.note-editor-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }

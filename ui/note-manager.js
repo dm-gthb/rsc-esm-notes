@@ -7,12 +7,12 @@ export function NoteManager({ note }) {
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
-    return createElement(NoteEditor, { note });
+    return createElement(NoteEditor, { note, onEditCancel: () => setIsEditing(false) });
   }
 
   return createElement(
     'div',
-    { className: 'note-details' },
+    null,
     createElement('h2', { className: 'note-title' }, note.title),
     createElement('p', null, note.text),
     createElement('p', null, `Created at: ${note.createdAt}`),

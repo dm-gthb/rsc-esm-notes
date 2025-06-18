@@ -16,7 +16,7 @@ export function App({ selectedNoteId }) {
         createElement(NoteList, { selectedNoteId }),
         createElement(
           'div',
-          null,
+          { className: 'note-details' },
           selectedNoteId
             ? createElement(
                 Suspense,
