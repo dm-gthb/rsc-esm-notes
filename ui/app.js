@@ -1,6 +1,6 @@
 import { createElement, Suspense } from 'react';
 import { NoteList } from './note-list.js';
-import { NoteDetails } from './note-details.js';
+import { Note } from './note.js';
 
 export function App({ selectedNoteId }) {
   return createElement(
@@ -21,7 +21,7 @@ export function App({ selectedNoteId }) {
             ? createElement(
                 Suspense,
                 { fallback: createElement('div', null, 'Loading note...') },
-                createElement(NoteDetails, { noteId: selectedNoteId }),
+                createElement(Note, { noteId: selectedNoteId }),
               )
             : createElement('p', null, `Selecte note to view details`),
         ),
