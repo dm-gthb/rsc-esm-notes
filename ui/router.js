@@ -1,4 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, createContext, use } from 'react';
+
+export const RouterContext = createContext();
+
+export function useRouter() {
+  const context = use(RouterContext);
+  if (!context) {
+    throw new Error('useRouter must be used within a Router');
+  }
+  return context;
+}
 
 export function useLinkHandler(navigate) {
   useEffect(() => {

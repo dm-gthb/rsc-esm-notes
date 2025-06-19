@@ -1,14 +1,7 @@
 import * as RSC from 'react-server-dom-esm/client';
-import {
-  createElement,
-  use,
-  Suspense,
-  useState,
-  useEffect,
-  startTransition,
-} from 'react';
+import { createElement, use, Suspense, useState, useEffect, useTransition } from 'react';
 import { createRoot } from 'react-dom/client';
-import { getGlobalLocation, useLinkHandler } from './router.js';
+import { getGlobalLocation, RouterContext, useLinkHandler } from './router.js';
 
 function createFromFetch(fetchPromise) {
   return RSC.createFromFetch(fetchPromise, {
@@ -45,6 +38,7 @@ const initContentPromise = createFromFetch(fetchPromise);
 function Root() {
   const [contentPromise, setContentPromise] = useState(initContentPromise);
   const content = use(contentPromise).app;
+  const [isPending, startTransition] = useTransition();
 
   useLinkHandler((path) => {
     const fetchPromise = fetch('/rsc' + path).then((val) => {
@@ -65,7 +59,7 @@ function Root() {
     };
   }, []);
 
-  return content;
+  return createElement(RouterContext, { value: { isNavigating: isPending } }, content);
 }
 
 createRoot(document.getElementById('root')).render(
