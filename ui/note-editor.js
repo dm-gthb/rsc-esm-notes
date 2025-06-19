@@ -14,14 +14,7 @@ export function NoteEditor({ note, onEditCancel, action }) {
     createElement(
       'div',
       { className: 'note-editor-form-row' },
-      createElement(
-        'label',
-        {
-          htmlFor: 'note-title',
-          className: 'note-editor-label',
-        },
-        'Title',
-      ),
+      createElement('label', { htmlFor: 'note-title' }, 'Title'),
       createElement('input', {
         id: 'note-title',
         type: 'text',
@@ -35,14 +28,7 @@ export function NoteEditor({ note, onEditCancel, action }) {
     createElement(
       'div',
       { className: 'note-editor-form-row' },
-      createElement(
-        'label',
-        {
-          htmlFor: 'note-text',
-          className: 'note-editor-label',
-        },
-        'Text',
-      ),
+      createElement('label', { htmlFor: 'note-text' }, 'Text'),
       createElement('textarea', {
         id: 'note-text',
         name: 'text',
