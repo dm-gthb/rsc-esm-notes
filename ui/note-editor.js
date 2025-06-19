@@ -28,7 +28,7 @@ export function NoteEditor({ note, onEditCancel, action }) {
         name: 'title',
         defaultValue: note.title,
         placeholder: 'Note Title',
-        className: 'note-editor-title-input',
+        disabled: isPending,
         required: true,
       }),
     ),
@@ -48,7 +48,7 @@ export function NoteEditor({ note, onEditCancel, action }) {
         name: 'text',
         defaultValue: note.text,
         placeholder: 'Note Text',
-        className: 'note-editor-textarea',
+        disabled: isPending,
         required: true,
       }),
     ),
@@ -61,7 +61,6 @@ export function NoteEditor({ note, onEditCancel, action }) {
       'button',
       {
         type: 'submit',
-        className: 'note-editor-button',
         disabled: isPending,
       },
       isPending ? 'Saving...' : 'Save Note',
@@ -70,7 +69,6 @@ export function NoteEditor({ note, onEditCancel, action }) {
       'button',
       {
         type: 'button',
-        className: 'note-editor-button',
         onClick: onEditCancel,
         disabled: isPending,
       },
@@ -79,8 +77,7 @@ export function NoteEditor({ note, onEditCancel, action }) {
     createElement(
       'div',
       null,
-      formState?.error &&
-        createElement('p', { className: 'error-message' }, formState.error.message),
+      formState?.error && createElement('p', null, formState.error.message),
     ),
   );
 }
