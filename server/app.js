@@ -23,13 +23,7 @@ app.use(
 );
 
 app.get('/rsc/:noteId?', async (context) => {
-  const noteId = context.req.param('noteId') ?? null;
-  const { pipe } = renderToPipeableStream(
-    createElement(App, { selectedNoteId: noteId }),
-    moduleBasePath,
-  );
-  pipe(context.env.outgoing);
-  return RESPONSE_ALREADY_SENT;
+  return renderApp(context, null);
 });
 
 app.get('/:noteId?', async (context) => {
@@ -50,10 +44,7 @@ app.post('/action/:noteId?', async (context) => {
   const args = await decodeReply(formData, moduleBasePath);
   const result = await action(...args);
 
-  const { pipe } = renderToPipeableStream({ returnValue: result }, moduleBasePath);
-
-  pipe(context.env.outgoing);
-  return RESPONSE_ALREADY_SENT;
+  return await renderApp(context, result);
 });
 
 serve({
@@ -63,3 +54,11 @@ serve({
     console.error('Server error:', err);
   },
 });
+
+async function renderApp(context, returnValue) {
+  const noteId = context.req.param('noteId') ?? null;
+  const app = createElement(App, { selectedNoteId: noteId });
+  const { pipe } = renderToPipeableStream({ app, returnValue }, moduleBasePath);
+  pipe(context.env.outgoing);
+  return RESPONSE_ALREADY_SENT;
+}
