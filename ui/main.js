@@ -1,6 +1,13 @@
-import { createElement, use, Suspense, useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import * as RSC from 'react-server-dom-esm/client';
+import {
+  createElement,
+  use,
+  Suspense,
+  useState,
+  useEffect,
+  startTransition,
+} from 'react';
+import { createRoot } from 'react-dom/client';
 
 function createFromFetch(fetchPromise) {
   return RSC.createFromFetch(fetchPromise, {
@@ -40,7 +47,9 @@ function Root() {
 
   useEffect(() => {
     updateContentPromise = (newContentPromise) => {
-      setContentPromise(newContentPromise);
+      startTransition(() => {
+        setContentPromise(newContentPromise);
+      });
     };
   }, []);
 
