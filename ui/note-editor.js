@@ -1,12 +1,15 @@
 'use client';
 
-import { createElement } from 'react';
+import { createElement, useActionState } from 'react';
 
-export function NoteEditor({ note, onEditCancel }) {
+export function NoteEditor({ note, onEditCancel, action }) {
+  const [formState, formAction, isPending] = useActionState(action);
+
   return createElement(
     'form',
     {
       className: 'note-editor-form',
+      action: formAction,
     },
     createElement(
       'div',
@@ -26,6 +29,7 @@ export function NoteEditor({ note, onEditCancel }) {
         defaultValue: note.title,
         placeholder: 'Note Title',
         className: 'note-editor-title-input',
+        required: true,
       }),
     ),
     createElement(
@@ -45,15 +49,22 @@ export function NoteEditor({ note, onEditCancel }) {
         defaultValue: note.text,
         placeholder: 'Note Text',
         className: 'note-editor-textarea',
+        required: true,
       }),
     ),
+    createElement('input', {
+      type: 'hidden',
+      name: 'noteId',
+      value: note.id,
+    }),
     createElement(
       'button',
       {
         type: 'submit',
         className: 'note-editor-button',
+        disabled: isPending,
       },
-      'Save Note',
+      isPending ? 'Saving...' : 'Save Note',
     ),
     createElement(
       'button',
@@ -61,8 +72,15 @@ export function NoteEditor({ note, onEditCancel }) {
         type: 'button',
         className: 'note-editor-button',
         onClick: onEditCancel,
+        disabled: isPending,
       },
-      'Cancel',
+      'Return to View Note',
+    ),
+    createElement(
+      'div',
+      null,
+      formState?.error &&
+        createElement('p', { className: 'error-message' }, formState.error.message),
     ),
   );
 }

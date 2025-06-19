@@ -134,7 +134,7 @@ export async function getNote(id) {
   return { ...note };
 }
 
-export async function upcreatedAtNote(id, { title, text }) {
+export async function updateNote(id, { title, text }) {
   await delay();
   const index = notes.findIndex((note) => note.id === Number(id));
   if (index === -1) throw new Error(`Note with id ${id} not found`);

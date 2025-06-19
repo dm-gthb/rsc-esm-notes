@@ -3,11 +3,15 @@
 import { createElement, useState } from 'react';
 import { NoteEditor } from './note-editor.js';
 
-export function NoteManager({ note }) {
+export function NoteManager({ note, saveNoteAction }) {
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
-    return createElement(NoteEditor, { note, onEditCancel: () => setIsEditing(false) });
+    return createElement(NoteEditor, {
+      note,
+      onEditCancel: () => setIsEditing(false),
+      action: saveNoteAction,
+    });
   }
 
   return createElement(
