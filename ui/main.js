@@ -8,6 +8,7 @@ import {
   startTransition,
 } from 'react';
 import { createRoot } from 'react-dom/client';
+import { getGlobalLocation, useLinkHandler } from './router.js';
 
 function createFromFetch(fetchPromise) {
   return RSC.createFromFetch(fetchPromise, {
@@ -45,6 +46,17 @@ function Root() {
   const [contentPromise, setContentPromise] = useState(initContentPromise);
   const content = use(contentPromise).app;
 
+  useLinkHandler((path) => {
+    const fetchPromise = fetch('/rsc' + path).then((val) => {
+      window.history.pushState({}, '', path);
+      return val;
+    });
+
+    startTransition(() => {
+      setContentPromise(createFromFetch(fetchPromise));
+    });
+  });
+
   useEffect(() => {
     updateContentPromise = (newContentPromise) => {
       startTransition(() => {
@@ -69,7 +81,3 @@ createRoot(document.getElementById('root')).render(
     createElement(Root),
   ),
 );
-
-function getGlobalLocation() {
-  return window.location.pathname + window.location.search;
-}
