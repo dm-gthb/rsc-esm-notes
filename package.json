@@ -2,16 +2,14 @@
   "name": "rsc-notes-with-react-server-dom-esm",
   "version": "1.0.0",
   "type": "module",
+  "author": "Dmitrii Mamonov",
   "scripts": {
     "dev": "node --import ./server/register-rsc-loader.js --conditions=react-server --watch server/app.js",
     "format": "prettier --write \"**/*.+(js|jsx|json|html|css)\""
   },
-  "author": "Dmitrii Mamonov",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@hono/node-server": "^1.14.4",
-    "hono": "^4.7.11",
+    "@hono/node-server": "1.14.4",
+    "hono": "4.7.11",
     "react-server-dom-esm": "npm:@dmitrii_mamonov/dev-react-server-dom-esm@19.0.1"
   },
   "devDependencies": {
